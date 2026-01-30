@@ -1,0 +1,9 @@
+{
+  "name": "deidentify-ai",
+  "version": "1.0.0",
+  "description": "AI Data De-identification",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

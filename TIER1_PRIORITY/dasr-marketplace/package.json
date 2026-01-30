@@ -1,0 +1,9 @@
+{
+  "name": "dasr-marketplace",
+  "version": "1.0.0",
+  "description": "Decentralized Anonymous Marketplace",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

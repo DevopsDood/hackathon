@@ -1,0 +1,9 @@
+{
+  "name": "@thegit/privacy-sdk",
+  "version": "1.0.0",
+  "description": "Privacy Toolkit SDK",
+  "main": "index.js",
+  "scripts": { "test": "jest" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

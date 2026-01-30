@@ -1,0 +1,28 @@
+{
+  "name": "shadowpay-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/sdk",
+    "packages/cli",
+    "packages/web"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:workspaces",
+    "install:workspaces": "npm run install:sdk && npm run install:cli && npm run install:web",
+    "install:sdk": "cd packages/sdk && npm install",
+    "install:cli": "cd packages/cli && npm install",
+    "install:web": "cd packages/web && npm install",
+    "build": "npm run build:sdk && npm run build:cli",
+    "build:sdk": "cd packages/sdk && npm run build",
+    "build:cli": "cd packages/cli && npm run build",
+    "test": "npm run test:sdk && npm run test:cli",
+    "test:sdk": "cd packages/sdk && npm test",
+    "test:cli": "cd packages/cli && npm test",
+    "cli": "npm run start:cli",
+    "start:cli": "cd packages/cli && npm start",
+    "web:dev": "cd packages/web && npm run dev",
+    "web:build": "cd packages/web && npm run build",
+    "web:start": "cd packages/web && npm start"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "gitnpm",
+  "version": "1.0.0",
+  "description": "Privacy Package Manager CLI",
+  "main": "index.js",
+  "bin": { "gitnpm": "./bin/cli.js" },
+  "scripts": { "start": "node bin/cli.js" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

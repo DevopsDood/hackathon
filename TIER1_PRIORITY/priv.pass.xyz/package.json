@@ -1,0 +1,9 @@
+{
+  "name": "priv-pass",
+  "version": "1.0.0",
+  "description": "Zero-Knowledge Password Manager",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

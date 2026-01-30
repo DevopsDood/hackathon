@@ -1,0 +1,9 @@
+{
+  "name": "matrix-privacy",
+  "version": "1.0.0",
+  "description": "Privacy Matrix Integration",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

@@ -1,0 +1,56 @@
+{
+  "name": "quantum-terminal",
+  "version": "1.0.0",
+  "description": "Post-quantum secure terminal and messaging application",
+  "main": "dist/index.js",
+  "bin": {
+    "quantum-chat": "./dist/cli/index.js",
+    "quantum-terminal": "./dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc && npm run build:web",
+    "build:web": "next build",
+    "dev": "next dev",
+    "start": "next start",
+    "cli": "ts-node src/cli/index.ts",
+    "test": "jest",
+    "test:kyber": "jest src/crypto/kyber.test.ts",
+    "test:hybrid": "jest src/crypto/hybrid.test.ts",
+    "benchmark": "ts-node benchmarks/crypto.ts",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "post-quantum",
+    "cryptography",
+    "kyber",
+    "messaging",
+    "privacy",
+    "solana"
+  ],
+  "author": "thegit.network",
+  "license": "MIT",
+  "dependencies": {
+    "@solana/web3.js": "^1.87.0",
+    "commander": "^11.0.0",
+    "ws": "^8.14.0",
+    "chalk": "^4.1.2",
+    "inquirer": "^9.2.0",
+    "tweetnacl": "^1.0.3",
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/ws": "^8.5.0",
+    "@types/inquirer": "^9.0.0",
+    "@types/react": "^18.2.0",
+    "@types/jest": "^29.5.0",
+    "typescript": "^5.2.0",
+    "ts-node": "^10.9.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.0",
+    "eslint": "^8.50.0"
+  }
+}

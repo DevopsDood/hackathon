@@ -1,0 +1,22 @@
+{
+  "name": "@shadowpay/cli",
+  "version": "1.0.0",
+  "description": "ShadowPay CLI - Private Stealth Payment System",
+  "main": "dist/index.js",
+  "bin": {
+    "shadowpay": "./bin/shadowpay.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@shadowpay/sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.0",
+    "@types/readline": "^1.3.1",
+    "typescript": "^5.4.0"
+  }
+}

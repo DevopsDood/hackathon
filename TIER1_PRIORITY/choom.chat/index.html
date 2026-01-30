@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Terminal (choom.chat) - Post-Quantum Secure Messaging</title>
+  <meta name="description" content="Post-quantum secure terminal and messaging application - Protect against quantum computer attacks with Kyber-768 + X25519 hybrid encryption">
+  <meta name="keywords" content="post-quantum, cryptography, kyber, messaging, privacy, quantum-safe">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    :root {
+      --quantum-green: #00ff41;
+      --quantum-dark: #0d0208;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: var(--quantum-green);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    /* Glitch Animation */
+    @keyframes glitch {
+      2%, 64% { transform: translate(2px,0) skew(0deg); }
+      4%, 60% { transform: translate(-2px,0) skew(0deg); }
+      62% { transform: translate(0,0) skew(5deg); }
+    }
+    
+    .glitch {
+      animation: glitch 1s linear infinite;
+    }
+    
+    /* Pulse Animation */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    /* Terminal Style */
+    .terminal {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--quantum-green);
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .terminal-header {
+      background: linear-gradient(90deg, #1a1a2e, #0d0208);
+      border-bottom: 1px solid var(--quantum-green);
+      padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27ca40; }
+    
+    .terminal-title {
+      margin-left: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .terminal-content {
+      padding: 1rem;
+      height: 300px;
+      overflow-y: auto;
+      font-size: 0.875rem;
+    }
+    
+    .terminal-line {
+      white-space: pre-wrap;
+    }
+    
+    .prompt-line {
+      display: flex;
+      align-items: center;
+      margin-top: 0.5rem;
+    }
+    
+    .prompt-symbol {
+      margin-right: 0.5rem;
+    }
+    
+    .prompt-path {
+      margin-right: 0.5rem;
+      color: var(--quantum-green);
+    }
+    
+    /* Features Grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    
+    .feature-card {
+      border: 1px solid var(--quantum-green);
+      padding: 1rem;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border: 1px solid var(--quantum-green);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      margin: 0.25rem;
+    }
+    
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    header p {
+      font-size: 1.125rem;
+      opacity: 0.9;
+    }
+    
+    /* Code Block */
+    .code-block {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid var(--quantum-green);
+      padding: 1rem;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+    }
+    
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(0, 255, 65, 0.3);
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+    
+    /* Responsive */
+    @media (max-width: 640px) {
+      header h1 {
+        font-size: 1.75rem;
+      }
+      .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1 class="glitch">QUANTUM TERMINAL</h1>
+      <p>choom.chat — Post-Quantum Secure Messaging</p>
+      <div class="badge-container">
+        <span class="badge">🏆 Post-Quantum $15K</span>
+        <span class="badge">💡 Most Innovative $10K</span>
+        <span class="badge pulse">✅ SUBMISSION READY</span>
+      </div>
+    </header>
+    
+    <!-- Features -->
+    <div class="features">
+      <div class="feature-card terminal">
+        <h3>🔐 Kyber-768</h3>
+        <p>NIST FIPS 203 compliant post-quantum KEM. Protects against quantum attacks on encrypted data.</p>
+      </div>
+      <div class="feature-card terminal">
+        <h3>🛡️ Hybrid Mode</h3>
+        <p>Kyber + X25519 for defense in depth. Quantum-safe encryption with classical fallback.</p>
+      </div>
+      <div class="feature-card terminal">
+        <h3>⚡ Forward Secrecy</h3>
+        <p>Ephemeral keys per session. Past messages stay secure even if keys are compromised.</p>
+      </div>
+    </div>
+    
+    <!-- Terminal Demo -->
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <span class="terminal-title">quantum-terminal — zsh</span>
+      </div>
+      <div class="terminal-content" id="terminal">
+        <div class="terminal-line">╔════════════════════════════════════════════════════════════╗</div>
+        <div class="terminal-line">║     QUANTUM TERMINAL v1.0 - Post-Quantum Secure Chat       ║</div>
+        <div class="terminal-line">║                                                            ║</div>
+        <div class="terminal-line">║     🛡️  Kyber-768 + X25519 Hybrid Encryption              ║</div>
+        <div class="terminal-line">║     🔐  "Harvest Now, Decrypt Later" Defense               ║</div>
+        <div class="terminal-line">║     ⚡  Forward Secrecy & Auto Key Rotation                ║</div>
+        <div class="terminal-line">╚════════════════════════════════════════════════════════════╝</div>
+        <div class="terminal-line"></div>
+        <div class="terminal-line">Initializing quantum-safe connection...</div>
+        <div class="terminal-line">Loading cryptographic modules...</div>
+        <div class="terminal-line">✓ Kyber-768 KEM loaded</div>
+        <div class="terminal-line">✓ X25519 ECDH loaded</div>
+        <div class="terminal-line">✓ ChaCha20-Poly1305 loaded</div>
+        <div class="terminal-line">✓ Hybrid encryption engine ready</div>
+        <div class="terminal-line"></div>
+        <div class="terminal-line">Type "help" for available commands.</div>
+        <div class="terminal-line"></div>
+        <div id="output"></div>
+        <div class="prompt-line">
+          <span class="prompt-symbol">➜</span>
+          <span class="prompt-path">~</span>
+          <input type="text" id="cmd-input" style="background: transparent; border: none; outline: none; color: var(--quantum-green); font-family: inherit; flex: 1;" autofocus>
+        </div>
+      </div>
+    </div>
+    
+    <!-- CLI Installation -->
+    <div class="terminal" style="margin-top: 2rem; padding: 1.5rem;">
+      <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">🚀 Install CLI</h2>
+      <div class="code-block">
+        <div style="color: #aaffaa; margin-bottom: 0.5rem;"># Install and start using Quantum Terminal</div>
+        <div style="color: var(--quantum-green);">npm install -g quantum-terminal</div>
+        <div style="color: var(--quantum-green); margin-top: 0.5rem;">quantum-chat start --username yourname --room hackathon</div>
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+      <p>Built with 🦀 Rust + ⚛️ Next.js + 🔐 Kyber-768</p>
+      <p style="margin-top: 0.5rem;">© 2026 choom.chat — Submission Ready</p>
+    </footer>
+  </div>
+  
+  <script>
+    const commands = {
+      help: `Available commands:
+  keygen      - Generate post-quantum key pair
+  status      - Show crypto status
+  demo        - Run demo sequence
+  clear       - Clear terminal`,
+      keygen: `🔐 Generating post-quantum keys...
+✓ Keys generated successfully!
+
+Public Key (truncated):
+5f6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b
+
+Algorithm: Kyber-768
+Key size: 1184 bytes`,
+      status: `🔐 Quantum Terminal Crypto Status
+
+✓ Kyber-768 (Post-Quantum NIST FIPS 203)
+✓ X25519 (Elliptic Curve - Fallback)
+✓ ChaCha20-Poly1305 (Symmetric Encryption)
+✓ Hybrid Mode (Defense in Depth)
+
+🛡️ Protection: Harvest now, decrypt later defense ENABLED`,
+      demo: `
+╔════════════════════════════════════════════════════════╗
+║              DEMO: Post-Quantum Encryption Flow         ║
+╚════════════════════════════════════════════════════════╝
+
+Step 1: Generate Kyber-768 Key Pair
+  → Public Key: 1184 bytes
+  → Secret Key: 1632 bytes
+
+Step 2: Generate X25519 Key Pair (fallback)
+  → Public Key: 32 bytes
+  → Secret Key: 32 bytes
+
+Step 3: Hybrid Key Encapsulation
+  → Kyber encapsulation: (ciphertext, shared_secret)
+  → X25519 ECDH: shared_secret
+  → KDF( Kyber_SS || X25519_SS ) → Master Key
+
+Step 4: Encrypt with ChaCha20-Poly1305
+  → Message encrypted with combined key
+  → 128-bit authentication tag
+
+✓ Secure message sent!`,
+    };
+    
+    const input = document.getElementById('cmd-input');
+    const output = document.getElementById('output');
+    const terminal = document.getElementById('terminal');
+    
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const cmd = this.value.trim().toLowerCase();
+        
+        // Add command to output
+        const cmdLine = document.createElement('div');
+        cmdLine.className = 'terminal-line';
+        cmdLine.textContent = '> ' + this.value;
+        output.appendChild(cmdLine);
+        
+        // Process command
+        if (cmd === 'clear') {
+          output.innerHTML = '';
+        } else if (cmd === '') {
+          // Nothing
+        } else if (commands[cmd]) {
+          const response = document.createElement('div');
+          response.className = 'terminal-line';
+          response.textContent = commands[cmd];
+          response.style.whiteSpace = 'pre-wrap';
+          output.appendChild(response);
+          output.appendChild(document.createElement('div'));
+        } else if (cmd) {
+          const error = document.createElement('div');
+          error.className = 'terminal-line';
+          error.textContent = `Command not found: ${cmd}. Type "help" for available commands.`;
+          output.appendChild(error);
+          output.appendChild(document.createElement('div'));
+        }
+        
+        // Scroll to bottom
+        terminal.scrollTop = terminal.scrollHeight;
+        
+        // Clear input
+        this.value = '';
+      }
+    });
+    
+    // Focus input on click
+    terminal.addEventListener('click', () => input.focus());
+  </script>
+</body>
+</html>

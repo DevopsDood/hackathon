@@ -1,0 +1,9 @@
+{
+  "name": "zk-claims",
+  "version": "1.0.0",
+  "description": "ZK Proof Claims System on Aztec",
+  "main": "index.js",
+  "scripts": { "compile": "nargo compile", "test": "nargo test" },
+  "author": "thegit.network",
+  "license": "MIT"
+}

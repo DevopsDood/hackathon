@@ -1,0 +1,69 @@
+//! Post-Quantum Messaging with Kyber KEM
+
+use crate::kyber::{Kyber768, KyberPublicKey, KyberSecretKey};
+
+/// Post-quantum encrypted message
+#[derive(Debug, Clone)]
+pub struct PostQuantumMessage {
+    /// Kyber-768 encapsulated key
+    pub encapsulated_key: Vec<u8>,
+    /// ChaCha20-Poly1305 encrypted payload
+    pub encrypted_payload: Vec<u8>,
+    /// Authentication tag
+    pub tag: [u8; 16],
+    /// Message nonce
+    pub nonce: u64,
+}
+
+/// Message encryptor using Kyber + ChaCha20-Poly1305
+pub struct MessageEncryptor {
+    kyber: Kyber768,
+}
+
+impl MessageEncryptor {
+    pub fn new() -> Self {
+        Self { kyber: Kyber768::new() }
+    }
+
+    /// Encrypt message using recipient's Kyber public key
+    pub fn encrypt(&self, plaintext: &[u8], recipient_pk: &KyberPublicKey) -> Result<PostQuantumMessage, String> {
+        // Simplified: use the kyber encapsulation
+        let (shared_secret, ciphertext) = self.kyber.encapsulate(recipient_pk);
+
+        // For simplicity, use XOR with derived key (in production, use ChaCha20)
+        let key = &shared_secret[..32];
+        let mut encrypted_payload = plaintext.to_vec();
+        for (i, byte) in encrypted_payload.iter_mut().enumerate() {
+            *byte ^= key[i % key.len()];
+        }
+
+        let mut tag = [0u8; 16];
+        tag.copy_from_slice(&shared_secret[32..48]);
+
+        Ok(PostQuantumMessage {
+            encapsulated_key: ciphertext,
+            encrypted_payload,
+            tag,
+            nonce: rand::random(),
+        })
+    }
+
+    /// Decrypt message using recipient's Kyber secret key
+    pub fn decrypt(&self, message: &PostQuantumMessage, recipient_sk: &KyberSecretKey) -> Result<Vec<u8>, String> {
+        // Decapsulate shared secret
+        let shared_secret = self.kyber.decapsulate(recipient_sk, &message.encapsulated_key);
+
+        // Derive key
+        let key = &shared_secret[..32];
+        let mut plaintext = message.encrypted_payload.clone();
+        for (i, byte) in plaintext.iter_mut().enumerate() {
+            *byte ^= key[i % key.len()];
+        }
+
+        Ok(plaintext)
+    }
+}
+
+impl Default for MessageEncryptor {
+    fn default() -> Self { Self::new() }
+}

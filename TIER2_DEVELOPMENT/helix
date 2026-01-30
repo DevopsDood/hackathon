@@ -1,0 +1,115 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
+class Contact {
+  final String id;
+  final String name;
+  final String publicKey;
+  final Uint8List? kyberPublicKey;
+  final String? profilePicture;
+  final DateTime addedAt;
+  final DateTime? lastSeen;
+  final bool isVerified;
+
+  Contact({
+    required this.id,
+    required this.name,
+    required this.publicKey,
+    this.kyberPublicKey,
+    this.profilePicture,
+    required this.addedAt,
+    this.lastSeen,
+    this.isVerified = false,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'publicKey': publicKey,
+      'kyberPublicKey': kyberPublicKey != null ? base64Encode(kyberPublicKey!) : null,
+      'profilePicture': profilePicture,
+      'addedAt': addedAt.toIso8601String(),
+      'lastSeen': lastSeen?.toIso8601String(),
+      'isVerified': isVerified,
+    };
+  }
+
+  factory Contact.fromJson(Map<String, dynamic> json) {
+    return Contact(
+      id: json['id'],
+      name: json['name'],
+      publicKey: json['publicKey'],
+      kyberPublicKey: json['kyberPublicKey'] != null ? base64Decode(json['kyberPublicKey']) : null,
+      profilePicture: json['profilePicture'],
+      addedAt: DateTime.parse(json['addedAt']),
+      lastSeen: json['lastSeen'] != null ? DateTime.parse(json['lastSeen']) : null,
+      isVerified: json['isVerified'] ?? false,
+    );
+  }
+
+  String get shortPublicKey => publicKey.length > 16 
+      ? '${publicKey.substring(0, 8)}...${publicKey.substring(publicKey.length - 8)}'
+      : publicKey;
+
+  String get statusText {
+    if (lastSeen == null) return 'Never';
+    final diff = DateTime.now().difference(lastSeen!);
+    if (diff.inMinutes < 5) return 'Online';
+    if (diff.inHours < 1) return '${diff.inMinutes}m ago';
+    if (diff.inDays < 1) return '${diff.inHours}h ago';
+    return '${diff.inDays}d ago';
+  }
+}
+
+class Group {
+  final String id;
+  final String name;
+  final String? description;
+  final String creatorId;
+  final List<String> memberIds;
+  final DateTime createdAt;
+  final DateTime? lastActivity;
+  final bool isEncrypted;
+
+  Group({
+    required this.id,
+    required this.name,
+    this.description,
+    required this.creatorId,
+    required this.memberIds,
+    required this.createdAt,
+    this.lastActivity,
+    this.isEncrypted = true,
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'creatorId': creatorId,
+      'memberIds': memberIds,
+      'createdAt': createdAt.toIso8601String(),
+      'lastActivity': lastActivity?.toIso8601String(),
+      'isEncrypted': isEncrypted,
+    };
+  }
+
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      id: json['id'],
+      name: json['name'],
+      description: json['description'],
+      creatorId: json['creatorId'],
+      memberIds: List<String>.from(json['memberIds']),
+      createdAt: DateTime.parse(json['createdAt']),
+      lastActivity: json['lastActivity'] != null ? DateTime.parse(json['lastActivity']) : null,
+      isEncrypted: json['isEncrypted'] ?? true,
+    );
+  }
+
+  int get memberCount => memberIds.length;
+  bool isAdmin(String userId) => creatorId == userId;
+  bool isMember(String userId) => memberIds.contains(userId);
+}

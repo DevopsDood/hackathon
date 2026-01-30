@@ -1,0 +1,9 @@
+{
+  "name": "lnk-zip",
+  "version": "1.0.0",
+  "description": "Encrypted Link Shortener",
+  "main": "server.js",
+  "scripts": { "start": "node server.js" },
+  "author": "thegit.network",
+  "license": "MIT"
+}
