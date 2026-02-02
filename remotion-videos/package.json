@@ -1,0 +1,27 @@
+{
+  "name": "remotion-videos",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "remotion studio src/entry.tsx",
+    "build": "remotion bundle src/entry.tsx --out out/bundle.js",
+    "render": "remotion render",
+    "render:all": "node scripts/render-all.js",
+    "compositions": "remotion compositions src/entry.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.416",
+    "@remotion/player": "^4.0.416",
+    "remotion": "^4.0.416",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.294.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "typescript": "^5.3.0"
+  }
+}
